@@ -7,6 +7,8 @@ const quad = require("./quadratic");
 const multitable = require("./multitable");
 const pwr = require ("./power");
 const sqrt = require ("./sqrt");
+const time = require ("./timeconverter");
+const lengthconvert = require("./lengthconverter");
 
 const r1 = readline.createInterface({
     input: process.stdin,
@@ -22,8 +24,11 @@ console.log("5. Quadratic Equation");
 console.log("6.Multiplication table");
 console.log("7.Power");
 console.log("8. Square root");
+console.log("9. Time converter");
+console.log("10. Length Converter");
 
 r1.question("Enter the choice",(choice) =>{
+choice = Number(choice);
  if(choice == 5)
  {
     r1.question("enter the coefficient of a",(a)=>{
@@ -98,6 +103,57 @@ else if(choice==8)
    });
     })
 }
+else if(choice == 9)
+{
+    console.log("1. Seconds to Hours,Minutes,Seconds");
+    console.log("2. Hours,Minutes,Seconds to Seconds");
+    r1.question("Enter options: ", (o) => {
+        if(Number(o) == 1)
+        {
+            r1.question("Enter the seconds: ", (sec) => {
+                console.log(time(Number(sec)));
+                r1.question("Do you want to continue? (y/n): ", (ans) => {
+                    if (ans.toLowerCase() === "y") menu();
+                    else r1.close();
+                });
+            });
+        }
+        else if(Number(o) == 2)
+        {
+            r1.question("Enter hours: ", (h) => {
+            r1.question("Enter minutes: ", (m) => {
+            r1.question("Enter seconds: ", (s) => {
+                let result = (Number(h) * 3600) + (Number(m) * 60) + Number(s);
+                console.log("Total seconds = " + result);
+                r1.question("Do you want to continue? (y/n): ", (ans) => {
+                    if (ans.toLowerCase() === "y") menu();
+                    else r1.close();
+                });
+            })
+            })
+            });
+        }
+        else
+        {
+            console.log("Invalid choice");
+            menu();
+        }
+    });
+}
+else if(choice == 10)
+{
+    console.log("1. Kilometers to Meters");
+    console.log("2. Meters to Kilometers");
+    r1.question("Enter choice: ", (c) => {
+        r1.question("Enter the value: ", (val) => {
+            console.log(lengthconvert(Number(val), Number(c)));
+            r1.question("Do you want to continue? (y/n): ", (ans) => {
+                if (ans.toLowerCase() === "y") menu();
+                else r1.close();
+            });
+        });
+    });
+}
  else
  {
    r1.question("Enter the first number",(num1)=>{
@@ -106,19 +162,19 @@ else if(choice==8)
    num2=Number(num2);
    switch(choice)
    {
-    case "1":
+    case 1:
         console.log("Addition= ",add(num1,num2));
         break;
-     case "2":
+     case 2:
         console.log("Substraction= ",sub(num1,num2));
         break;
-    case "3":
+    case 3:
         console.log("Multiplication= ",product(num1,num2));
         break;
-    case "4":
+    case 4:
         console.log("Division=",division(num1,num2));
         break; 
-    case "6":
+    case 6:
         console.log("Multiplication Table=",multitable(num));
         break; 
     default :
