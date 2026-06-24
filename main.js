@@ -9,11 +9,13 @@ const pwr = require ("./power");
 const sqrt = require ("./sqrt");
 const time = require ("./timeconverter");
 const lengthconvert = require("./lengthconverter");
+const useLastResult = require("./lastresult");
 
 const r1 = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+const state = { lastresult: null };
 function menu()
 {
 console.log("1. Addition");
@@ -26,6 +28,7 @@ console.log("7.Power");
 console.log("8. Square root");
 console.log("9. Time converter");
 console.log("10. Length Converter");
+console.log("11. Arithmetic opertaion on Previous Result");
 
 r1.question("Enter the choice",(choice) =>{
 choice = Number(choice);
@@ -71,8 +74,8 @@ choice = Number(choice);
 {
     r1.question("Enter the number to find power of :",(number)=>{
     r1.question("Enter the power",(power)=>{
-     let result=pwr(Number(number),Number(power));
-     console.log(+number+ " to the power " +power+ "=" +result);
+        state.lastresult = pwr(Number(number), Number(power));
+     console.log(+number+ " to the power " +power+ "=" + state.lastresult);
     r1.question("Do you want to continue? (y/n): ", (ans) => {
     if (ans.toLowerCase() === "y")
     {
@@ -90,7 +93,8 @@ else if(choice==8)
 {
     r1.question("Enter the number to find square root of",(nbr)=>{
     nbr=Number(nbr);
-    console.log("Square root of "+nbr+"=",sqrt(nbr));
+    state.lastresult = sqrt(nbr);
+    console.log("Square root of "+nbr+"=",state.lastresult);
     r1.question("Do you want to continue? (y/n): ", (ans) => {
     if (ans.toLowerCase() === "y")
     {
@@ -154,6 +158,10 @@ else if(choice == 10)
         });
     });
 }
+else if(choice==11)
+{
+    useLastResult(r1, state, menu);
+}
  else
  {
    r1.question("Enter the first number",(num1)=>{
@@ -163,16 +171,20 @@ else if(choice == 10)
    switch(choice)
    {
     case 1:
-        console.log("Addition= ",add(num1,num2));
+        state.lastresult = add(num1, num2);
+        console.log("Addition= ",state.lastresult);
         break;
      case 2:
-        console.log("Substraction= ",sub(num1,num2));
+        state.lastresult = sub(num1, num2);
+        console.log("Substraction= ",state.lastresult);
         break;
     case 3:
-        console.log("Multiplication= ",product(num1,num2));
+        state.lastresult = product(num1, num2);
+        console.log("Multiplication= ",state.lastresult);
         break;
     case 4:
-        console.log("Division=",division(num1,num2));
+        state.lastresult = division(num1, num2);
+        console.log("Division=",state.lastresult);
         break; 
     case 6:
         console.log("Multiplication Table=",multitable(num));
